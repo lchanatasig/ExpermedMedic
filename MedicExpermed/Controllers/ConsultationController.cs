@@ -555,7 +555,15 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
 
                             row.ConstantItem(275).Column(col =>
                             {
-                                col.Item().PaddingTop(10).Text("Receta: " + consulta.Medicamentos).Bold().FontSize(14); // Encabezado más grande
+                                // Muestra todos los secuenciales de los medicamentos
+                                if (consulta.Medicamentos.Any())
+                                {
+                                    col.Item().PaddingTop(10).Text("Receta: " + consulta.Medicamentos.First().SecuencialMedicamento).Bold().FontSize(14);
+                                }
+                                else
+                                {
+                                    col.Item().PaddingTop(10).Text("Secuencial: No hay medicamentos").Bold().FontSize(14);
+                                }
                                 col.Item().Text("CC: " + consulta.CiPacientes).FontSize(12);
 
                             });
@@ -578,7 +586,15 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
 
                             row.ConstantItem(275).Column(col =>
                             {
-                                col.Item().PaddingTop(10).Text("Receta: " + consulta.Medicamentos).Bold().FontSize(14); // Encabezado más grande
+                                // Muestra todos los secuenciales de los medicamentos
+                                if (consulta.Medicamentos.Any())
+                                {
+                                    col.Item().PaddingTop(10).Text("Receta: " + consulta.Medicamentos.First().SecuencialMedicamento).Bold().FontSize(14);
+                                }
+                                else
+                                {
+                                    col.Item().PaddingTop(10).Text("Secuencial: No hay medicamentos").Bold().FontSize(14);
+                                }
                                 col.Item().Text("CC: " + consulta.CiPacientes).FontSize(12);
                             });
                         });
