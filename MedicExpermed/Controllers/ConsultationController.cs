@@ -1614,11 +1614,11 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
 
                                         // Columna 2 (Observación)
                                         nestedTable.Cell().BorderBottom(1).BorderColor("#C6C2C2").Background("#FFFFFF").MinHeight(12).MinWidth(3)
-                                            .Text(diagnostico.ObservacionDiagnostico).FontSize(9).AlignCenter();
+                                            .Text(diagnostico.NombreDiagnostico).FontSize(9).AlignCenter();
 
                                         // Columna 3 (UUID del Diagnóstico)
                                         nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#FFFFFF").MinHeight(12).MinWidth(3)
-                                            .Text(diagnostico.DiagnosticoId.ToString()).FontSize(9).AlignCenter();
+                                            .Text(diagnostico.CIE10DIA.ToString()).FontSize(9).AlignCenter();
 
                                         // Columna 4 (Presuntivo)
                                         nestedTable.Cell().BorderBottom(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(12).MinWidth(3)
