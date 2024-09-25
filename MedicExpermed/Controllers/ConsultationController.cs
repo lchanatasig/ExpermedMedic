@@ -538,65 +538,236 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                         // Primera fila
                         content.Item().Row(row =>
                         {
-                            row.ConstantItem(275).Column(col =>
+                            row.ConstantItem(400).Column(col =>
                             {
-                                col.Item().PaddingTop(10).Text("Fecha: " + consulta.FechaCreacion).FontSize(11).Bold();
-                                col.Item().Text("Apellidos: " + consulta.PrimerApellidoPaciente + consulta.SegundoApellidoPaciente).FontSize(11).Bold();
-                                col.Item().Text("Nombres: " + consulta.PrimerNombrePaciente + consulta.SegundoNombrePaciente).FontSize(11).Bold();
-                                col.Item().Text("Edad: " + consulta.EdadPacientes).FontSize(11).Bold();
+
+                                col.Item().PaddingTop(10)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Fecha: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.FechaCreacion.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+
+
+                                col.Item().PaddingTop(2)
+                                     .Text(text =>
+                                      {
+                                          text.Span("Apellidos: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                          text.Span(consulta.PrimerApellidoPaciente + " " + consulta.SegundoApellidoPaciente).FontSize(11); // Valor de la fecha sin negrita
+                                      });
+                                col.Item().PaddingTop(2)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Nombres: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.PrimerNombrePaciente + " " + consulta.SegundoNombrePaciente).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+                                col.Item().PaddingTop(2)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Edad: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.EdadPacientes.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+                                col.Item().PaddingTop(2)
+       .Text(text =>
+       {
+           text.Span("Alergias: ").FontSize(11).Bold();
+
+           var alergias = consulta.Alergias.Select(a => a.NombreAlergia.ToLower()).ToList(); // Convertir todas a minúsculas
+           string alergiasEnOracion;
+
+           if (alergias.Count == 1)
+           {
+               alergiasEnOracion = alergias[0]; // Solo una alergia
+           }
+           else if (alergias.Count == 2)
+           {
+               alergiasEnOracion = string.Join(" , ", alergias); // Dos alergias, unir con "y"
+           }
+           else
+           {
+               alergiasEnOracion = string.Join(", ", alergias.Take(alergias.Count - 1)) +
+                                   " , " + alergias.Last(); // Varias alergias, con "y" antes de la última
+           }
+
+           alergiasEnOracion = char.ToUpper(alergiasEnOracion[0]) + alergiasEnOracion.Substring(1); // Capitalizar la primera letra
+
+           text.Span(alergiasEnOracion).FontSize(11); // Mostrar las alergias en oración
+       });
+
+
                                 // Información de alergias
-                                col.Item().Text("Alergias: " + string.Join(", ", consulta.Alergias.Select(a => a.NombreAlergia))).FontSize(11).Bold();
 
                                 // Información de diagnósticos
-                                col.Item().Text("Diagnóstico: " + string.Join(", ", consulta.Diagnosticos.Select(d => d.NombreDiagnostico))).FontSize(11).Bold();
+                                col.Item().Text(text =>
+                                {
+                                    text.Span("Diagnóstico: ").FontSize(11).Bold();
+
+                                    var diagnosticos = consulta.Diagnosticos.Select(d => d.NombreDiagnostico.ToLower()).ToList(); // Convertir a minúsculas
+                                    string diagnosticosEnOracion;
+
+                                    if (diagnosticos.Count == 1)
+                                    {
+                                        diagnosticosEnOracion = diagnosticos[0]; // Solo un diagnóstico
+                                    }
+                                    else if (diagnosticos.Count == 2)
+                                    {
+                                        diagnosticosEnOracion = string.Join(" , ", diagnosticos); // Dos diagnósticos, unir con "y"
+                                    }
+                                    else
+                                    {
+                                        diagnosticosEnOracion = string.Join(", ", diagnosticos.Take(diagnosticos.Count - 1)) +
+                                                                " , " + diagnosticos.Last(); // Varios diagnósticos, "y" antes del último
+                                    }
+
+                                    diagnosticosEnOracion = char.ToUpper(diagnosticosEnOracion[0]) + diagnosticosEnOracion.Substring(1); // Capitalizar la primera letra
+
+                                    text.Span(diagnosticosEnOracion).FontSize(11); // Mostrar la oración con los diagnósticos
+                                });
 
 
                             });
 
-                            row.ConstantItem(275).Column(col =>
+                            row.ConstantItem(150).Column(col =>
                             {
                                 // Muestra todos los secuenciales de los medicamentos
                                 if (consulta.Medicamentos.Any())
                                 {
-                                    col.Item().PaddingTop(10).Text("Receta: " + consulta.Medicamentos.First().SecuencialMedicamento).Bold().FontSize(14);
+                                    col.Item().PaddingTop(2)
+                                   .Text(text =>
+                                   {
+                                       text.Span("Receta: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                       text.Span(consulta.Medicamentos.First().SecuencialMedicamento.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                   });
                                 }
                                 else
                                 {
                                     col.Item().PaddingTop(10).Text("Secuencial: No hay medicamentos").Bold().FontSize(14);
                                 }
-                                col.Item().Text("CC: " + consulta.CiPacientes).FontSize(12);
 
+                                col.Item().PaddingTop(2)
+                               .Text(text =>
+                               {
+                                   text.Span("CC: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                   text.Span(consulta.CiPacientes.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                               });
                             });
 
                             row.AutoItem().PaddingHorizontal(10).LineVertical(1).LineColor(Colors.Grey.Lighten1);
 
-                            row.ConstantItem(275).Column(col =>
+                            row.ConstantItem(400).Column(col =>
                             {
-                                col.Item().PaddingTop(10).Text("Fecha: " + consulta.FechaCreacion).FontSize(11).Bold();
-                                col.Item().Text("Apellidos: " + consulta.PrimerApellidoPaciente + consulta.SegundoApellidoPaciente).FontSize(11).Bold();
-                                col.Item().Text("Nombres: " + consulta.PrimerNombrePaciente + consulta.SegundoNombrePaciente).FontSize(11).Bold();
-                                col.Item().Text("Edad: " + consulta.EdadPacientes).FontSize(11).Bold();
+
+                                col.Item().PaddingTop(10)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Fecha: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.FechaCreacion.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+
+
+                                col.Item().PaddingTop(2)
+                                     .Text(text =>
+                                     {
+                                         text.Span("Apellidos: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                         text.Span(consulta.PrimerApellidoPaciente + " " + consulta.SegundoApellidoPaciente).FontSize(11); // Valor de la fecha sin negrita
+                                     });
+                                col.Item().PaddingTop(2)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Nombres: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.PrimerNombrePaciente + " " + consulta.SegundoNombrePaciente).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+                                col.Item().PaddingTop(2)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Edad: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.EdadPacientes.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+                                col.Item().PaddingTop(2)
+       .Text(text =>
+       {
+           text.Span("Alergias: ").FontSize(11).Bold();
+
+           var alergias = consulta.Alergias.Select(a => a.NombreAlergia.ToLower()).ToList(); // Convertir todas a minúsculas
+           string alergiasEnOracion;
+
+           if (alergias.Count == 1)
+           {
+               alergiasEnOracion = alergias[0]; // Solo una alergia
+           }
+           else if (alergias.Count == 2)
+           {
+               alergiasEnOracion = string.Join(" , ", alergias); // Dos alergias, unir con "y"
+           }
+           else
+           {
+               alergiasEnOracion = string.Join(", ", alergias.Take(alergias.Count - 1)) +
+                                   " , " + alergias.Last(); // Varias alergias, con "y" antes de la última
+           }
+
+           alergiasEnOracion = char.ToUpper(alergiasEnOracion[0]) + alergiasEnOracion.Substring(1); // Capitalizar la primera letra
+
+           text.Span(alergiasEnOracion).FontSize(11); // Mostrar las alergias en oración
+       });
+
+
                                 // Información de alergias
-                                col.Item().Text("Alergias: " + string.Join(", ", consulta.Alergias.Select(a => a.NombreAlergia))).FontSize(11).Bold();
 
                                 // Información de diagnósticos
-                                col.Item().Text("Diagnóstico: " + string.Join(", ", consulta.Diagnosticos.Select(d => d.NombreDiagnostico))).FontSize(11).Bold();
+                                col.Item().Text(text =>
+                                {
+                                    text.Span("Diagnóstico: ").FontSize(11).Bold();
+
+                                    var diagnosticos = consulta.Diagnosticos.Select(d => d.NombreDiagnostico.ToLower()).ToList(); // Convertir a minúsculas
+                                    string diagnosticosEnOracion;
+
+                                    if (diagnosticos.Count == 1)
+                                    {
+                                        diagnosticosEnOracion = diagnosticos[0]; // Solo un diagnóstico
+                                    }
+                                    else if (diagnosticos.Count == 2)
+                                    {
+                                        diagnosticosEnOracion = string.Join(" , ", diagnosticos); // Dos diagnósticos, unir con "y"
+                                    }
+                                    else
+                                    {
+                                        diagnosticosEnOracion = string.Join(", ", diagnosticos.Take(diagnosticos.Count - 1)) +
+                                                                " , " + diagnosticos.Last(); // Varios diagnósticos, "y" antes del último
+                                    }
+
+                                    diagnosticosEnOracion = char.ToUpper(diagnosticosEnOracion[0]) + diagnosticosEnOracion.Substring(1); // Capitalizar la primera letra
+
+                                    text.Span(diagnosticosEnOracion).FontSize(11); // Mostrar la oración con los diagnósticos
+                                });
+
 
                             });
 
-                            row.ConstantItem(275).Column(col =>
+                            row.ConstantItem(150).Column(col =>
                             {
                                 // Muestra todos los secuenciales de los medicamentos
                                 if (consulta.Medicamentos.Any())
                                 {
-                                    col.Item().PaddingTop(10).Text("Receta: " + consulta.Medicamentos.First().SecuencialMedicamento).Bold().FontSize(14);
+                                    col.Item().PaddingTop(2)
+                                   .Text(text =>
+                                   {
+                                       text.Span("Receta: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                       text.Span(consulta.Medicamentos.First().SecuencialMedicamento.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                   });
                                 }
                                 else
                                 {
                                     col.Item().PaddingTop(10).Text("Secuencial: No hay medicamentos").Bold().FontSize(14);
                                 }
-                                col.Item().Text("CC: " + consulta.CiPacientes).FontSize(12);
+                                col.Item().PaddingTop(2)
+                                .Text(text =>
+                                {
+                                    text.Span("CC: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                    text.Span(consulta.CiPacientes.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                });
                             });
+
+
                         });
 
                         // Segunda fila (Nueva fila)
@@ -606,16 +777,16 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                         {
                             row.ConstantItem(550).PaddingTop(50).Column(col =>
                             {
-                                col.Item().Text("PRESCRIPCIÓN").Bold().FontSize(14); // Título
-                                                                                     // Recorre la lista de medicamentos y muestra su información
+                                col.Item().PaddingBottom(6).Text("PRESCRIPCIÓN").Bold().FontSize(14); // Título
+                                                                                                      // Recorre la lista de medicamentos y muestra su información
                                 foreach (var medicamento in consulta.Medicamentos)
                                 {
                                     // Crear una fila para cada medicamento
                                     col.Item().Row(innerRow =>
                                     {
-                                        innerRow.ConstantItem(265).Column(innerCol =>
+                                        innerRow.ConstantItem(400).Column(innerCol =>
                                         {
-                                            innerCol.Item().Text(medicamento.NombreMedicamento).FontSize(12);
+                                            innerCol.Item().Text("("+medicamento.CIE10MED+")"+ medicamento.NombreMedicamento).FontSize(12);
                                         });
 
                                         innerRow.ConstantItem(40).Column(innerCol => // Ajusta el tamaño de esta columna para dar más espacio
@@ -630,15 +801,15 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
 
                             row.ConstantItem(550).PaddingTop(50).Column(col =>
                             {
-                                col.Item().PaddingBottom(20).Text("INDICACIONES").Bold().FontSize(14); // Título
-                                                                                                       // Recorre la lista de medicamentos y muestra las observaciones
+                                col.Item().PaddingBottom(7).Text("INDICACIONES").Bold().FontSize(14); // Título
+                                                                                                      // Recorre la lista de medicamentos y muestra las observaciones
                                 foreach (var medicamento in consulta.Medicamentos)
                                 {
-                                    col.Item().MinWidth(300).Text(medicamento.ObserMedicamento).FontSize(12);
+                                    col.Item().MinWidth(300).Text("(" + medicamento.CIE10MED + ")" + medicamento.NombreMedicamento + medicamento.ObserMedicamento).FontSize(12);
                                 }
 
                                 // Si hay espacio adicional, puedes agregar más celdas vacías si es necesario
-                                for (int i = consulta.Medicamentos.Count; i < 12; i++) // Por ejemplo, llenar hasta 12 celdas
+                                for (int i = consulta.Medicamentos.Count; i < 6; i++) // Por ejemplo, llenar hasta 12 celdas
                                 {
                                     col.Item().MinWidth(300).Text("").FontSize(12);
                                 }
@@ -668,7 +839,7 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                                 col.Item().Text("").FontSize(12);
                                 col.Item().Text("").FontSize(12);
                                 col.Item().Text("").FontSize(12);
-                                col.Item().PaddingTop(100).Text("").FontSize(12);
+                                col.Item().PaddingTop(30).Text("").FontSize(12);
 
 
 
@@ -769,35 +940,39 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                         // Fecha de emisión del justificante en formato largo
 
                         // Información del médico
-                        column.Item().Text($"Dr. {consulta.NombresMedico} {consulta.ApellidosMedico}").FontSize(14).AlignCenter();
-                        column.Item().Text($"Colegiado No. {consulta.CodigoMedico}").FontSize(12).AlignCenter();
-                        column.Item().Text($"Especialista en {consulta.NombreEspecialidad}").FontSize(12).AlignCenter();
+                        column.Item().Text($"Dr. {consulta.NombresMedico} {consulta.ApellidosMedico}").FontSize(8).AlignCenter();
+                        column.Item().Text($"Colegiado No. {consulta.CodigoMedico}").FontSize(9).AlignCenter();
+                        column.Item().Text($"Especialista en {consulta.NombreEspecialidad}").FontSize(9).AlignCenter();
 
                         // Dirección, teléfono y correo electrónico de la clínica
-                        column.Item().Text(consulta.DireccionMedico).FontSize(12).AlignCenter();
-                        column.Item().Text($"Teléfono: {consulta.TelefonoMedico}").FontSize(12).AlignCenter();
-                        column.Item().Text($"Correo electrónico: {consulta.EmailMedico}").FontSize(12).AlignCenter();
+                        column.Item().Text(consulta.DireccionMedico).FontSize(9).AlignCenter();
+                        column.Item().Text($"Teléfono: {consulta.TelefonoMedico}").FontSize(9).AlignCenter();
+                        column.Item().Text($"Correo electrónico: {consulta.EmailMedico}").FontSize(9).AlignCenter();
                     });
 
                     // Contenido del justificante médico
                     page.Content().PaddingVertical(30).Column(column =>
                     {
                         column.Spacing(15); // Espaciado entre los elementos
-                        column.Item().Text($"Quito, {DateTime.Now.ToString("dddd, dd 'de' MMMM 'de' yyyy", new CultureInfo("es-ES"))}").FontSize(14).AlignStart();
+                        column.Item().Text($"Quito, {DateTime.Now.ToString("dddd, dd 'de' MMMM 'de' yyyy", new CultureInfo("es-ES"))}").FontSize(9).AlignStart();
 
                         // Título del justificante con estilo
                         column.Item().Text("JUSTIFICANTE MÉDICO").FontSize(20).Bold().Underline().AlignCenter();
 
 
                         // Cuerpo del justificante
-                        column.Item().Text($"Por medio de la presente, se hace constar que el/la paciente {consulta.PrimerNombrePaciente} {consulta.PrimerApellidoPaciente}, con documento de identidad {consulta.CiPacientes}, ha sido atendido/a en esta consulta el día {consulta.FechaCreacion}, debido a {consulta.MotivoConsulta}.").FontSize(14).WrapAnywhere();
+                        column.Item().Text($"Por medio de la presente, se hace constar que el/la paciente {consulta.PrimerNombrePaciente} {consulta.PrimerApellidoPaciente}, con documento de identidad {consulta.CiPacientes}, ha sido atendido/a en esta consulta el día {consulta.FechaCreacion}, debido a {consulta.MotivoConsulta}.").FontSize(11).WrapAnywhere();
 
                         column.Item().Text(consulta.FechaCreacion.HasValue
                             ? $"Se le ha indicado {consulta.DiasIncapacidad} días de incapacidad, por lo cual se recomienda que se abstenga de asistir a sus actividades desde {consulta.FechaCreacion.Value.ToString("dd/MM/yyyy")} hasta {consulta.FechaCreacion.Value.AddDays(consulta.DiasIncapacidad).ToString("dd/MM/yyyy")} durante dicho período."
-                            : "La fecha de creación de la consulta no está disponible.", TextStyle.Default.Size(14));
+                            : "La fecha de creación de la consulta no está disponible.", TextStyle.Default.Size(11));
 
-                        column.Item().Text("Su diaagnostico fue: " + string.Join(", ", consulta.Diagnosticos.Select(d => d.NombreDiagnostico))).FontSize(20).Bold().Underline().AlignCenter();
-
+                        column.Item().PaddingTop(2)
+                                  .Text(text =>
+                                  {
+                                      text.Span("Su diagnostico fue: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                      text.Span(string.Join(", ", consulta.Diagnosticos.Select(d => d.NombreDiagnostico)).ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                  });
                         // Espaciador visual
                         column.Item().PaddingVertical(20).BorderBottom(1).LineHorizontal(1);
 
@@ -912,42 +1087,52 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                             // Fila de datos
                             table.Cell().MinHeight(14).BorderLeft(2).BorderBottom(1).BorderRight(2).BorderColor("#808080").Text($"{consulta.AntecedentesPersonales}").FontSize(10);
                             // Celda para Alergias
+                            // Celda para Alergias
                             table.Cell().MinHeight(14).BorderLeft(2).BorderBottom(1).BorderRight(2).BorderColor("#808080")
                                 .Column(column =>
                                 {
-                                    column.Item().Text("Alergias:").Bold().FontSize(10);
-
-                                    if (consulta.Alergias != null && consulta.Alergias != null && consulta.Alergias.Any())
+                                    if (consulta.Alergias != null && consulta.Alergias.Any())
                                     {
-                                        foreach (var alergia in consulta.Alergias)
+                                        // Unir los nombres de las alergias en una sola oración
+                                        var alergiasTexto = string.Join(", ", consulta.Alergias.Select(alergia => alergia.NombreAlergia));
+                                        column.Item().Text(text =>
                                         {
-                                            column.Item().Text($"{alergia.NombreAlergia} - {alergia.ObserAlergia}").FontSize(10);
-                                        }
+                                            // Usar Span para "Alergias:" en negrita
+                                            text.Span("Alergias:").Bold().FontSize(10);
+                                            // Usar Span para el texto de alergias sin negrita
+                                            text.Span($" {alergiasTexto}.").FontSize(8); // Asegúrate de que el tamaño de fuente esté correcto
+                                        });
                                     }
                                     else
                                     {
-                                        column.Item().Text("No se registraron alergias").FontSize(10);
+                                        column.Item().Text("Alergias: No se registraron alergias.").FontSize(10);
                                     }
                                 });
+
+
+
 
                             // Celda para Cirugías
                             table.Cell().MinHeight(14).BorderLeft(2).BorderBottom(1).BorderRight(2).BorderColor("#808080")
                                 .Column(column =>
                                 {
-                                    column.Item().Text("Cirugías:").Bold().FontSize(10);
-
-                                    if (consulta.Cirugias != null && consulta.Cirugias != null && consulta.Cirugias.Any())
+                                    if (consulta.Cirugias != null && consulta.Cirugias.Any())
                                     {
-                                        foreach (var cirugia in consulta.Cirugias)
+                                        // Unir los nombres de las cirugías en una sola oración
+                                        var cirugiasTexto = string.Join(", ", consulta.Cirugias.Select(cirugia => cirugia.NombreCirugia));
+                                        column.Item().Text(text =>
                                         {
-                                            column.Item().Text($"{cirugia.NombreCirugia} - {cirugia.ObserCirugia}").FontSize(10);
-                                        }
+                                            text.Span("Cirugías:").Bold().FontSize(10); // "Cirugías:" en negrita
+                                            text.Span($" {cirugiasTexto}.").FontSize(8); // Resto del texto sin negrita
+                                        });
                                     }
                                     else
                                     {
-                                        column.Item().Text("No se registraron cirugías").FontSize(10);
+                                        column.Item().Text("Cirugías: No se registraron cirugías.").FontSize(10);
                                     }
                                 });
+
+
 
 
 
@@ -955,7 +1140,7 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
 
                         // Tercera tabla
 
-                        contentColumn.Item().PaddingTop(7).Table(table =>
+                        contentColumn.Item().PaddingTop(7).Border(2).BorderColor("808080").Table(table =>
                         {
                             // Definir las columnas de la tabla para el encabezado
                             table.ColumnsDefinition(columns =>
@@ -1001,41 +1186,101 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
 
                                     // Fila dentro de la tabla anidada 
                                     nestedTable.Cell().BorderRight(1).BorderTop(1).BorderBottom(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("1.\nCARDIOPATIA").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.Cardiopatia == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.Cardiopatia == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("2. \nDIABETES").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.Diabetes == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.Diabetes == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(15).MinWidth(3).Text("3. ENF.CARDIOVASCULAR\n").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.EnfCardiovascular == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.EnfCardiovascular == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("4.  HIPERTENSION").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.Hipertension == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.Hipertension == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("5.\nCANCER").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.Cancer == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.Cancer == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("6. TUBERCULOSIS").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.Tuberculosis == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.Tuberculosis == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("7.ENF MENTAL").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.EnfMental == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.EnfMental == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("8. ENF INFECCIOSA").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.EnfInfecciosa == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.EnfInfecciosa == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("9. MAL FORMACION").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.MalFormacion == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.MalFormacion == true ? "X" : "").FontSize(7).AlignCenter();
                                     nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(10).MinWidth(3).Text("10 OTRO").FontSize(5).AlignCenter();
-                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).Text(consulta.AntecedentesFamiliares.Otro == true ? "X" : "").FontSize(7).AlignCenter();
+                                    nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(10).MinWidth(3).PaddingTop(6).Text(consulta.AntecedentesFamiliares.Otro == true ? "X" : "").FontSize(7).AlignCenter();
 
                                 });
                             });
-                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoCardiopatia + "-" + consulta.AntecedentesFamiliares.ObserCardiopatia))
+
+                            // Crear las observaciones para cada patología con parentesco u observación
+                            var observaciones = new List<string>();
+
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoCardiopatia) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObserCardiopatia))
                             {
-                                table.Cell().Border(1).BorderColor("#C6C2C2").Background("#FFFFFF").MinHeight(12).MinWidth(3)
-                                    .Text(" Cardiopatia: " + consulta.AntecedentesFamiliares.ParentescoCardiopatia + "-" + consulta.AntecedentesFamiliares.ObserCardiopatia).FontSize(9).AlignStart();
+                                observaciones.Add("Cardiopatía: " + consulta.AntecedentesFamiliares.ParentescoCardiopatia + " - " + consulta.AntecedentesFamiliares.ObserCardiopatia);
+                            }
+
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoDiabetes) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObserDiabetes))
+                            {
+                                observaciones.Add("Diabetes: " + consulta.AntecedentesFamiliares.ParentescoDiabetes + " - " + consulta.AntecedentesFamiliares.ObserDiabetes);
+                            }
+
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoEnCardiovascular) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObseEnfCardiovascular))
+                            {
+                                observaciones.Add("Enf. Cardiovascular: " + consulta.AntecedentesFamiliares.ParentescoEnCardiovascular + " - " + consulta.AntecedentesFamiliares.ObseEnfCardiovascular);
+                            }
+
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoHipertension) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObserHipertension))
+                            {
+                                observaciones.Add("Hipertensión: " + consulta.AntecedentesFamiliares.ParentescoHipertension + " - " + consulta.AntecedentesFamiliares.ObserHipertension);
+                            }
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoCancer) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObseCancer))
+                            {
+                                observaciones.Add("Cancer: " + consulta.AntecedentesFamiliares.ParentescoCancer + " - " + consulta.AntecedentesFamiliares.ObseCancer);
+                            }
+
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoTuberculosis) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObserTuberculosis))
+                            {
+                                observaciones.Add("Tuberculosis: " + consulta.AntecedentesFamiliares.ParentescoTuberculosis + " - " + consulta.AntecedentesFamiliares.ObserTuberculosis);
+                            }
+
+
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoEnfMental) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObseEnfMenta))
+                            {
+                                observaciones.Add("Enf. Mental: " + consulta.AntecedentesFamiliares.ParentescoEnfMental + " - " + consulta.AntecedentesFamiliares.ObseEnfMenta);
+                            }
+
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoEnfInfecciosa) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObsEnfInfecciosa))
+                            {
+                                observaciones.Add("Enf. Infecciosa: " + consulta.AntecedentesFamiliares.ParentescoEnfInfecciosa + " - " + consulta.AntecedentesFamiliares.ObsEnfInfecciosa);
+                            }
+
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoMalFormacion) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObserMalFormacion))
+                            {
+                                observaciones.Add("Mal Formación: " + consulta.AntecedentesFamiliares.ParentescoMalFormacion + " - " + consulta.AntecedentesFamiliares.ObserMalFormacion);
+                            }
+                            if (!string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ParentescoMalFormacion) || !string.IsNullOrEmpty(consulta.AntecedentesFamiliares.ObserMalFormacion))
+                            {
+                                observaciones.Add("Otro: " + consulta.AntecedentesFamiliares.ParentescoOtro + " - " + consulta.AntecedentesFamiliares.ObseOtro);
+                            }
+                            // Agregar más condiciones para las demás patologías si es necesario...
+
+                            // Renderizar observaciones en la tabla si hay alguna
+                            if (observaciones.Any())
+                            {
+                                foreach (var observacion in observaciones)
+                                {
+                                    // Convertir el texto en tipo oración
+                                    var observacionFormateada = char.ToUpper(observacion[0]) + observacion.Substring(1).ToLower();
+
+                                    table.Cell().BorderLeft(2).BorderBottom(1).BorderRight(2).BorderColor("#C6C2C2").Background("#FFFFFF").MinHeight(12).MinWidth(3)
+                                        .Text(observacionFormateada).FontSize(9).AlignStart();
+                                }
+
                             }
                             else
                             {
-
-
                                 table.Cell().Border(1).BorderColor("#C6C2C2").Background("#FFFFFF").MinHeight(12).MinWidth(3)
                                     .Text("").FontSize(9).AlignStart();
-
                             }
+
 
 
                             table.Cell().MinHeight(16).BorderLeft(2).BorderBottom(2).BorderRight(2).BorderColor("#808080").Text("").FontSize(10);
@@ -1230,7 +1475,6 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                                     .FontSize(10);
 
                                 // Las siguientes celdas están quemadas (vacías)
-                                table.Cell().MinHeight(13).BorderLeft(2).BorderBottom(2).BorderRight(2).BorderColor("#808080").Text("").FontSize(10);
                             }
 
 
@@ -1545,51 +1789,46 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                             // Definir las columnas de la tabla principal con tamaños específicos
                             table.ColumnsDefinition(columns =>
                             {
-                                columns.ConstantColumn(170);  // Columna 1 (Diagnóstico)
-                                columns.ConstantColumn(95);  // Columna 3 (CIE)
-                                columns.ConstantColumn(19);  // Columna 4 (PRE)
-                                columns.ConstantColumn(20);  // Columna 5 (DEF)
-                                columns.ConstantColumn(12);  // Columna 6 (Espacio en blanco)
-                                columns.ConstantColumn(193);  // Columna 7 (CIE)
-                                columns.ConstantColumn(13);  // Columna 8 (PRE)
-                                columns.ConstantColumn(16);  // Columna 9 (DEF)
-                                columns.ConstantColumn(18);  // Columna 9 (DEF)
+                                columns.ConstantColumn(170);  // Columna 1 (Diagnóstico 1)
+                                columns.ConstantColumn(95);   // Columna 2 (CIE Diagnóstico 1)
+                                columns.ConstantColumn(19);   // Columna 3 (PRE Diagnóstico 1)
+                                columns.ConstantColumn(20);   // Columna 4 (DEF Diagnóstico 1)
+                                columns.ConstantColumn(12);   // Espacio entre diagnósticos
+                                columns.ConstantColumn(193);  // Columna 5 (Diagnóstico 2)
+                                columns.ConstantColumn(13);   // Columna 6 (CIE Diagnóstico 2)
+                                columns.ConstantColumn(16);   // Columna 7 (PRE Diagnóstico 2)
+                                columns.ConstantColumn(18);   // Columna 8 (DEF Diagnóstico 2)
                             });
 
                             // Fila de encabezado "8 DIAGNOSTICO"
                             table.Cell().MinHeight(14).BorderLeft(2).BorderTop(2).BorderBottom(2).BorderColor("#808080").Element(CellStyle =>
                                 CellStyle.Background("#ccccff")).AlignLeft().PaddingTop(3).PaddingLeft(3).Text("8 DIAGNOSTICO").FontSize(10).Bold();
 
-
                             table.Cell().MinHeight(14).BorderTop(2).BorderBottom(2).BorderColor("#808080").Element(CellStyle =>
                                 CellStyle.Background("#ccccff")).AlignLeft().PaddingTop(3).Text("PRE = PRESUNTIVO\r\nDEF = DEFINITIVO").FontSize(7).Bold();
 
+                            // Encabezados de la tabla
                             table.Cell().MinHeight(14).BorderTop(2).BorderBottom(2).BorderColor("#808080").Element(CellStyle =>
                                 CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("CIE").FontSize(6).Bold();
                             table.Cell().MinHeight(14).BorderTop(2).BorderBottom(2).BorderColor("#808080").Element(CellStyle =>
-                                                CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("PRE").FontSize(6).Bold();
+                                CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("PRE").FontSize(6).Bold();
                             table.Cell().MinHeight(14).BorderTop(2).BorderBottom(2).BorderColor("#808080").Element(CellStyle =>
-                                                CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("DEF").FontSize(6).Bold();
+                                CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("DEF").FontSize(6).Bold();
                             table.Cell().MinHeight(14).BorderTop(2).BorderBottom(2).BorderColor("#808080").Element(CellStyle =>
-                                               CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("").FontSize(6).Bold();
+                                CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("").FontSize(6).Bold();
                             table.Cell().MinHeight(14).BorderTop(2).BorderBottom(2).BorderColor("#808080").Element(CellStyle =>
-                                               CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("CIE").FontSize(6).Bold();
+                                CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("CIE").FontSize(6).Bold();
                             table.Cell().MinHeight(14).BorderTop(2).BorderBottom(2).BorderColor("#808080").Element(CellStyle =>
-                                               CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("PRE").FontSize(6).Bold();
-
+                                CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("PRE").FontSize(6).Bold();
                             table.Cell().MinHeight(14).BorderTop(2).BorderBottom(2).BorderRight(2).BorderColor("#808080").Element(CellStyle =>
-                                               CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("DEF").FontSize(6).Bold();
+                                CellStyle.Background("#ccccff")).AlignCenter().PaddingTop(3).MinWidth(2).Text("DEF").FontSize(6).Bold();
 
-                            // Las demás columnas siguen el mismo patrón...
-
-                            // Subtabla con 10 columnas
-
-                            // Crear una tabla principal
+                            // Crear una tabla dentro de la celda para los diagnósticos
                             table.Cell().ColumnSpan(9).Element(CellStyle =>
                             {
                                 CellStyle.Background("#ffffff").BorderLeft(2).BorderRight(2).BorderBottom(2).BorderColor("#808080").Table(nestedTable =>
                                 {
-                                    // Definir columnas dentro de la subtabla
+                                    // Definir columnas dentro de la subtabla para los diagnósticos
                                     nestedTable.ColumnsDefinition(columns =>
                                     {
                                         columns.ConstantColumn(14);  // Columna 1
@@ -1604,43 +1843,69 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                                         columns.ConstantColumn(20);  // Columna 10
                                     });
 
-                                    // Recorrer la lista de diagnósticos y agregar una fila para cada uno
+                                    // Agregar diagnósticos en pares
                                     int rowIndex = 1;
-                                    foreach (var diagnostico in consulta.Diagnosticos)
+                                    for (int i = 0; i < consulta.Diagnosticos.Count; i += 2)
                                     {
-                                        // Columna 1 (Número de fila o algún identificador)
+                                        var diagnostico1 = consulta.Diagnosticos[i]; // Primer diagnóstico en la fila
+                                        var diagnostico2 = (i + 1 < consulta.Diagnosticos.Count) ? consulta.Diagnosticos[i + 1] : null; 
+                                        // Segundo diagnóstico (si existe)
+                                                                                                                                        // Agregar celdas para cada columna en la misma fila
+                                                                                                                                        // Columna 1 (Número de fila o algún identificador)
                                         nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(12).MinWidth(3)
                                             .Text(rowIndex.ToString()).FontSize(9).AlignCenter();
 
-                                        // Columna 2 (Observación)
-                                        nestedTable.Cell().BorderBottom(1).BorderColor("#C6C2C2").Background("#FFFFFF").MinHeight(12).MinWidth(3)
-                                            .Text(diagnostico.NombreDiagnostico).FontSize(9).AlignCenter();
+                                        // Columna 1: Diagnóstico 1
+                                        nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffffff").MinHeight(12)
+                                            .Text(diagnostico1.NombreDiagnostico).FontSize(9).AlignCenter();
 
-                                        // Columna 3 (UUID del Diagnóstico)
-                                        nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#FFFFFF").MinHeight(12).MinWidth(3)
-                                            .Text(diagnostico.CIE10DIA.ToString()).FontSize(9).AlignCenter();
+                                        // Columna 2: CIE10 Diagnóstico 1
+                                        nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffffff").MinHeight(12)
+                                            .Text(diagnostico1.CIE10DIA.ToString()).FontSize(9).AlignCenter();
 
-                                        // Columna 4 (Presuntivo)
-                                        nestedTable.Cell().BorderBottom(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(12).MinWidth(3)
-                                            .Text(diagnostico.PresuntivoDiagnosticos ? "X" : "").FontSize(9).AlignCenter();
+                                        // Columna 3: Presuntivo Diagnóstico 1
+                                        nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(12)
+                                            .Text(diagnostico1.PresuntivoDiagnosticos ? "X" : "").FontSize(9).AlignCenter();
 
-                                        // Columna 5 (Definitivo)
-                                        nestedTable.Cell().BorderBottom(1).BorderLeft(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(12).MinWidth(3)
-                                            .Text(diagnostico.DefinitivoDiagnosticos ? "X" : "").FontSize(9).AlignCenter();
+                                        // Columna 4: Definitivo Diagnóstico 1
+                                        nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(12)
+                                            .Text(diagnostico1.DefinitivoDiagnosticos ? "X" : "").FontSize(9).AlignCenter();
 
-                                        // Celdas vacías para las columnas restantes
-                                        for (int i = 5; i < 10; i++)
+                                        nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ccffcc").MinHeight(12).MinWidth(3)
+                                           .Text(rowIndex.ToString()).FontSize(9).AlignCenter();
+
+                                        if (diagnostico2 != null)
                                         {
-                                            nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffffff").MinHeight(12).MinWidth(3)
-                                                .Text("").FontSize(9).AlignCenter(); // Celdas vacías
-                                        }
+                                            
+                                            // Columna 5: Diagnóstico 2 (si existe)
+                                            nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffffff").MinHeight(12)
+                                                .Text(diagnostico2.NombreDiagnostico).FontSize(9).AlignCenter();
 
+                                            // Columna 6: CIE10 Diagnóstico 2
+                                            nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffffff").MinHeight(12)
+                                                .Text(diagnostico2.CIE10DIA.ToString()).FontSize(9).AlignCenter();
+
+                                            // Columna 7: Presuntivo Diagnóstico 2
+                                            nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(12)
+                                                .Text(diagnostico2.PresuntivoDiagnosticos ? "X" : "").FontSize(9).AlignCenter();
+
+                                            // Columna 8: Definitivo Diagnóstico 2
+                                            nestedTable.Cell().Border(1).BorderColor("#C6C2C2").Background("#ffff99").MinHeight(12)
+                                                .Text(diagnostico2.DefinitivoDiagnosticos ? "X" : "").FontSize(9).AlignCenter();
+                                        }
+                                        else
+                                        {
+                                            // Si no hay un segundo diagnóstico, llenar las celdas con espacios vacíos
+                                            for (int j = 0; j < 4; j++)
+                                            {
+                                                nestedTable.Cell().Border(1).BorderColor("#ffffff").Background("#ffffff").MinHeight(12).Text("");
+                                            }
+                                        }
                                         rowIndex++;
                                     }
+                                 
                                 });
                             });
-
-
                         });
 
 
@@ -2455,39 +2720,168 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                         // Primera fila
                         content.Item().Row(row =>
                         {
-                            row.ConstantItem(275).Column(col =>
+                            row.ConstantItem(400).Column(col =>
                             {
-                                col.Item().PaddingTop(10).Text("Fecha: " + consulta.FechaCreacion).FontSize(11).Bold();
-                                col.Item().Text("Apellidos: " + consulta.PrimerApellidoPaciente + consulta.SegundoApellidoPaciente).FontSize(11).Bold();
-                                col.Item().Text("Nombres: " + consulta.PrimerNombrePaciente + consulta.SegundoNombrePaciente).FontSize(11).Bold();
-                                col.Item().Text("Edad: " + consulta.EdadPacientes).FontSize(11).Bold();
-                                col.Item().Text("Diagnóstico: " + string.Join(", ", consulta.Diagnosticos.Select(d => d.NombreDiagnostico))).FontSize(11).Bold();
+                                col.Item().PaddingTop(10)
+                                   .Text(text =>
+                                   {
+                                       text.Span("Fecha: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                       text.Span(consulta.FechaCreacion.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                   });
 
+
+                                col.Item().PaddingTop(2)
+                                     .Text(text =>
+                                     {
+                                         text.Span("Apellidos: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                         text.Span(consulta.PrimerApellidoPaciente + " " + consulta.SegundoApellidoPaciente).FontSize(11); // Valor de la fecha sin negrita
+                                     });
+                                col.Item().PaddingTop(2)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Nombres: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.PrimerNombrePaciente + " " + consulta.SegundoNombrePaciente).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+                                col.Item().PaddingTop(2)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Edad: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.EdadPacientes.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+                                // Información de diagnósticos
+                                col.Item().Text(text =>
+                                {
+                                    text.Span("Diagnóstico: ").FontSize(11).Bold();
+
+                                    var diagnosticos = consulta.Diagnosticos.Select(d => d.NombreDiagnostico.ToLower()).ToList(); // Convertir a minúsculas
+                                    string diagnosticosEnOracion;
+
+                                    if (diagnosticos.Count == 1)
+                                    {
+                                        diagnosticosEnOracion = diagnosticos[0]; // Solo un diagnóstico
+                                    }
+                                    else if (diagnosticos.Count == 2)
+                                    {
+                                        diagnosticosEnOracion = string.Join(" , ", diagnosticos); // Dos diagnósticos, unir con "y"
+                                    }
+                                    else
+                                    {
+                                        diagnosticosEnOracion = string.Join(", ", diagnosticos.Take(diagnosticos.Count - 1)) +
+                                                                " , " + diagnosticos.Last(); // Varios diagnósticos, "y" antes del último
+                                    }
+
+                                    diagnosticosEnOracion = char.ToUpper(diagnosticosEnOracion[0]) + diagnosticosEnOracion.Substring(1); // Capitalizar la primera letra
+
+                                    text.Span(diagnosticosEnOracion).FontSize(11); // Mostrar la oración con los diagnósticos
+                                });
                             });
 
-                            row.ConstantItem(275).Column(col =>
+                            row.ConstantItem(150).Column(col =>
                             {
-                                col.Item().PaddingTop(10).Text("Receta: ").Bold().FontSize(14); // Encabezado más grande
-                                col.Item().Text("CC: " + consulta.CiPacientes).FontSize(12);
+                                // Muestra todos los secuenciales de los medicamentos
+                                if (consulta.Medicamentos.Any())
+                                {
+                                    col.Item().PaddingTop(2)
+                                   .Text(text =>
+                                   {
+                                       text.Span("Receta: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                       text.Span(consulta.Medicamentos.First().SecuencialMedicamento.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                   });
+                                }
+                                else
+                                {
+                                    col.Item().PaddingTop(10).Text("Secuencial: No hay medicamentos").Bold().FontSize(14);
+                                }
 
+                                col.Item().PaddingTop(2)
+                               .Text(text =>
+                               {
+                                   text.Span("CC: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                   text.Span(consulta.CiPacientes.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                               });
                             });
 
                             row.AutoItem().PaddingHorizontal(10).LineVertical(1).LineColor(Colors.Grey.Lighten1);
 
-                            row.ConstantItem(275).Column(col =>
+                            row.ConstantItem(400).Column(col =>
                             {
-                                col.Item().PaddingTop(10).Text("Fecha: " + consulta.FechaCreacion).FontSize(11).Bold();
-                                col.Item().Text("Apellidos: " + consulta.PrimerApellidoPaciente + consulta.SegundoApellidoPaciente).FontSize(11).Bold();
-                                col.Item().Text("Nombres: " + consulta.PrimerNombrePaciente + consulta.SegundoNombrePaciente).FontSize(11).Bold();
-                                col.Item().Text("Edad: " + consulta.EdadPacientes).FontSize(11).Bold();
-                                col.Item().Text("Diagnóstico: " + string.Join(", ", consulta.Diagnosticos.Select(d => d.NombreDiagnostico))).FontSize(11).Bold();
+                                col.Item().PaddingTop(10)
+                                   .Text(text =>
+                                   {
+                                       text.Span("Fecha: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                       text.Span(consulta.FechaCreacion.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                   });
 
+
+                                col.Item().PaddingTop(2)
+                                     .Text(text =>
+                                     {
+                                         text.Span("Apellidos: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                         text.Span(consulta.PrimerApellidoPaciente + " " + consulta.SegundoApellidoPaciente).FontSize(11); // Valor de la fecha sin negrita
+                                     });
+                                col.Item().PaddingTop(2)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Nombres: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.PrimerNombrePaciente + " " + consulta.SegundoNombrePaciente).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+                                col.Item().PaddingTop(2)
+                                    .Text(text =>
+                                    {
+                                        text.Span("Edad: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                        text.Span(consulta.EdadPacientes.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                    });
+                                // Información de diagnósticos
+                                col.Item().Text(text =>
+                                {
+                                    text.Span("Diagnóstico: ").FontSize(11).Bold();
+
+                                    var diagnosticos = consulta.Diagnosticos.Select(d => d.NombreDiagnostico.ToLower()).ToList(); // Convertir a minúsculas
+                                    string diagnosticosEnOracion;
+
+                                    if (diagnosticos.Count == 1)
+                                    {
+                                        diagnosticosEnOracion = diagnosticos[0]; // Solo un diagnóstico
+                                    }
+                                    else if (diagnosticos.Count == 2)
+                                    {
+                                        diagnosticosEnOracion = string.Join(" , ", diagnosticos); // Dos diagnósticos, unir con "y"
+                                    }
+                                    else
+                                    {
+                                        diagnosticosEnOracion = string.Join(", ", diagnosticos.Take(diagnosticos.Count - 1)) +
+                                                                " , " + diagnosticos.Last(); // Varios diagnósticos, "y" antes del último
+                                    }
+
+                                    diagnosticosEnOracion = char.ToUpper(diagnosticosEnOracion[0]) + diagnosticosEnOracion.Substring(1); // Capitalizar la primera letra
+
+                                    text.Span(diagnosticosEnOracion).FontSize(11); // Mostrar la oración con los diagnósticos
+                                });
                             });
 
-                            row.ConstantItem(275).Column(col =>
+                            row.ConstantItem(150).Column(col =>
                             {
-                                col.Item().PaddingTop(10).Text("Receta: " + consulta.Medicamentos).Bold().FontSize(14); // Encabezado más grande
-                                col.Item().Text("CC: " + consulta.CiPacientes).FontSize(12);
+                                // Muestra todos los secuenciales de los medicamentos
+                                if (consulta.Medicamentos.Any())
+                                {
+                                    col.Item().PaddingTop(2)
+                                   .Text(text =>
+                                   {
+                                       text.Span("Receta: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                       text.Span(consulta.Medicamentos.First().SecuencialMedicamento.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                                   });
+                                }
+                                else
+                                {
+                                    col.Item().PaddingTop(10).Text("Secuencial: No hay medicamentos").Bold().FontSize(14);
+                                }
+
+                                col.Item().PaddingTop(2)
+                               .Text(text =>
+                               {
+                                   text.Span("CC: ").FontSize(11).Bold(); // Solo "Fecha:" en negrita
+                                   text.Span(consulta.CiPacientes.ToString()).FontSize(11); // Valor de la fecha sin negrita
+                               });
                             });
                         });
 
@@ -2497,19 +2891,19 @@ request.AntecedentesFamiliares.ParentescocatalogoOtro ?? default(int),
                         {
                             row.ConstantItem(550).PaddingTop(50).Column(col =>
                             {
-                                col.Item().Text("LABORATORIO").Bold().FontSize(14); // Título
+                                col.Item().PaddingBottom(6).Text("LABORATORIO").Bold().FontSize(14); // Título
                                                                                     // Recorre la lista de laboratorios y muestra su información
                                 foreach (var laboratorio in consulta.Laboratorios)
                                 {
                                     // Crear una fila para cada laboratorio
                                     col.Item().Row(innerRow =>
                                     {
-                                        innerRow.ConstantItem(265).Column(innerCol =>
+                                        innerRow.ConstantItem(400).Column(innerCol =>
                                         {
                                             innerCol.Item().Text(laboratorio.NombreLaboratorio).FontSize(12);
                                         });
 
-                                        innerRow.ConstantItem(265).Column(innerCol =>
+                                        innerRow.ConstantItem(40).Column(innerCol =>
                                         {
                                             innerCol.Item().Text("X" + laboratorio.CantidadLaboratorio).FontSize(12); // Cantidad de cada laboratorio
                                         });

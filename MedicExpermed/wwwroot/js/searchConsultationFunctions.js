@@ -744,7 +744,7 @@ document.getElementById('consultationForm').addEventListener('submit', async fun
         PlanTratamiento: document.getElementById('plantratamiento_consulta')?.value || null,
         DiasIncapacidad: parseInt(document.getElementById('diasincapacidad_consulta')?.value) || 0,
         Observacion: document.getElementById('observacion_consulta')?.value || null,
-        AntecedentesPersonales: document.getElementById('antecedentespersonales_consulta')?.value || '',
+        AntecedentesPersonales: document.getElementById('antecedentespersonales_consulta')?.value || 'Sin Especificar',
         MedicoId: parseInt(document.getElementById('medicoId')?.value) || null,
         EspecialidadId: parseInt(document.getElementById('especialidadId')?.value) || null,
         TipoConsultaId: parseInt(document.getElementById('tipoConsultaC')?.value) || null,
@@ -799,40 +799,40 @@ document.getElementById('consultationForm').addEventListener('submit', async fun
             ParentescocatalogoCardiopatia: document.getElementById('tipoDocumentoSelectCardiopatia')?.value ? parseInt(document.getElementById('tipoDocumentoSelectCardiopatia')?.value) : null,
 
             Diabetes: document.getElementById('consulta-antecedente-checked-diabetes')?.checked || null,
-            ObserDiabetes: document.getElementById('consulta-observacion-diabetes')?.value || null,
+            ObserDiabetes: document.getElementById('consulta-antecedente-observacion-diabetes')?.value || null,
             ParentescocatalogoDiabetes: document.getElementById('tipoDocumentoSelectDiabetes')?.value ? parseInt(document.getElementById('tipoDocumentoSelectDiabetes')?.value) : null,
 
             EnfCardiovascular: document.getElementById('consulta-antecedente-checked-enfcardiovascular')?.checked || null,
-            ObserEnfCardiovascular: document.getElementById('consulta-observacion-enfcardiovascular')?.value || null,
-            ParentescoEnfCardiovascular: document.getElementById('tipoDocumentoSelectEnfCardiovascular')?.value ? parseInt(document.getElementById('tipoDocumentoSelectEnfCardiovascular')?.value) : null,
+            ObserEnfCardiovascular: document.getElementById('consulta-antecedente-observacion-enfcardiovascular')?.value || null,
+            ParentescocatalogoEnfCardiovascular: document.getElementById('tipoDocumentoSelectEnfCardiovascular')?.value ? parseInt(document.getElementById('tipoDocumentoSelectEnfCardiovascular')?.value) : null,
 
             Hipertension: document.getElementById('consulta-antecedente-checked-hipertension')?.checked || null,
-            ObserHipertension: document.getElementById('consulta-observacion-hipertension')?.value || null,
-            ParentescoHipertension: document.getElementById('tipoDocumentoSelectHipertension')?.value ? parseInt(document.getElementById('tipoDocumentoSelectHipertension')?.value) : null,
+            ObserHipertension: document.getElementById('consulta-antecedente-observacion-hipertension')?.value || null,
+            ParentescocatalogoHipertension: document.getElementById('tipoDocumentoSelectHipertension')?.value ? parseInt(document.getElementById('tipoDocumentoSelectHipertension')?.value) : null,
 
             Cancer: document.getElementById('consulta-antecedente-checked-cancer')?.checked || null,
-            ObserCancer: document.getElementById('consulta-observacion-cancer')?.value || null,
-            ParentescoCancer: document.getElementById('tipoDocumentoSelectCancer')?.value ? parseInt(document.getElementById('tipoDocumentoSelectCancer')?.value) : null,
+            ObserCancer: document.getElementById('consulta-antecedente-observacion-cancer')?.value || null,
+            ParentescocatalogoCancer: document.getElementById('tipoDocumentoSelectCancer')?.value ? parseInt(document.getElementById('tipoDocumentoSelectCancer')?.value) : null,
 
             Tuberculosis: document.getElementById('consulta-antecedente-checked-tuberculosis')?.checked || null,
-            ObserTuberculosis: document.getElementById('consulta-observacion-tuberculosis')?.value || null,
-            ParentescoTuberculosis: document.getElementById('tipoDocumentoSelectTuberculosis')?.value ? parseInt(document.getElementById('tipoDocumentoSelectTuberculosis')?.value) : null,
+            ObserTuberculosis: document.getElementById('consulta-antecedente-observacion-tuberculosis')?.value || null,
+            ParentescocatalogoTuberculosis: document.getElementById('tipoDocumentoSelectTuberculosis')?.value ? parseInt(document.getElementById('id="tipoDocumentoSelectTuberculosis"')?.value) : null,
 
             EnfMental: document.getElementById('consulta-antecedente-checked-enfmental')?.checked || null,
-            ObserEnfMental: document.getElementById('consulta-observacion-enfmental')?.value || null,
-            ParentescoEnfMental: document.getElementById('tipoDocumentoSelectEnfMental')?.value ? parseInt(document.getElementById('tipoDocumentoSelectEnfMental')?.value) : null,
+            ObserEnfMental: document.getElementById('consulta-antecedente-observacion-enfmental')?.value || null,
+            ParentescocatalogoEnfMental: document.getElementById('tipoDocumentoSelectEnfMental')?.value ? parseInt(document.getElementById('tipoDocumentoSelectEnfMental')?.value) : null,
 
             EnfInfecciosa: document.getElementById('consulta-antecedente-checked-enfinfecciosa')?.checked || null,
-            ObserEnfInfecciosa: document.getElementById('consulta-observacion-enfinfecciosa')?.value || null,
-            ParentescoEnfInfecciosa: document.getElementById('tipoDocumentoSelectEnfInfecciosa')?.value ? parseInt(document.getElementById('tipoDocumentoSelectEnfInfecciosa')?.value) : null,
+            ObserEnfInfecciosa: document.getElementById('consulta-antecedente-observacion-enfinfecciosa')?.value || null,
+            ParentescocatalogoEnfInfecciosa: document.getElementById('tipoDocumentoSelectEnfInfecciosa')?.value ? parseInt(document.getElementById('tipoDocumentoSelectEnfInfecciosa')?.value) : null,
 
             MalFormacion: document.getElementById('consulta-antecedente-checked-malformacion')?.checked || null,
-            ObserMalFormacion: document.getElementById('consulta-observacion-malformacion')?.value || null,
-            ParentescoMalFormacion: document.getElementById('tipoDocumentoSelectMalFormacion')?.value ? parseInt(document.getElementById('tipoDocumentoSelectMalFormacion')?.value) : null,
+            ObserMalFormacion: document.getElementById('consulta-antecedente-observacion-malformacion')?.value || null,
+            ParentescocatalogoMalFormacion: document.getElementById('tipoDocumentoSelectMalFormacion')?.value ? parseInt(document.getElementById('tipoDocumentoSelectMalFormacion')?.value) : null,
 
             Otro: document.getElementById('consulta-antecedente-checked-otro')?.checked || null,
-            ObserOtro: document.getElementById('consulta-observacion-otro')?.value || null,
-            ParentescoOtro: document.getElementById('tipoDocumentoSelectOtro')?.value ? parseInt(document.getElementById('tipoDocumentoSelectOtro')?.value) : null
+            ObserOtro: document.getElementById('consulta-antecedente-observacion-otro')?.value || null,
+            ParentescocatalogoOtro: document.getElementById('tipoDocumentoSelectOtro')?.value ? parseInt(document.getElementById('tipoDocumentoSelectOtro')?.value) : null
         },
 
         // Tablas relacionadas (Arrays de objetos)

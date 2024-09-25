@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewData["Title"] = "Billing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container my-5">
+    <h1>Pasarela de Pagos</h1>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav flex-column nav-tabs border-0" id="paymentTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active border-0 d-flex align-items-center gap-2" id="efectivo-tab" data-bs-toggle="tab" data-bs-target="#efectivo" type="button" role="tab" aria-controls="efectivo" aria-selected="true">
+                        <i class="fas fa-money-bill-wave"></i> Efectivo
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link border-0 d-flex align-items-center gap-2" id="transferencia-tab" data-bs-toggle="tab" data-bs-target="#transferencia" type="button" role="tab" aria-controls="transferencia" aria-selected="false">
+                        <i class="fas fa-exchange-alt"></i> Transferencia
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link border-0 d-flex align-items-center gap-2" id="tarjeta-tab" data-bs-toggle="tab" data-bs-target="#tarjeta" type="button" role="tab" aria-controls="tarjeta" aria-selected="false">
+                        <i class="fas fa-credit-card"></i> Tarjeta
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content p-4 bg-light rounded shadow-sm" id="paymentTabsContent">
+                <div class="tab-pane fade show active" id="efectivo" role="tabpanel" aria-labelledby="efectivo-tab">
+                    <h2>Pago en Efectivo</h2>
+                    <p>Para pagar en efectivo, por favor diríjase a nuestra oficina más cercana.</p>
+                </div>
+                <div class="tab-pane fade" id="transferencia" role="tabpanel" aria-labelledby="transferencia-tab">
+                    <h2>Pago por Transferencia</h2>
+                    <p>Por favor realice la transferencia a la siguiente cuenta bancaria y suba el comprobante de pago.</p>
+                    <form method="post" action="/Facturacion/enviar-desde-consulta" enctype="multipart/form-data">
+                  @*       <input type="hidden" id="consultaId" value="@Model.IdCita" /> *@
+                        <div class="mb-3">
+                            <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
+                            <input type="datetime-local" class="form-control" id="fechaEmision" name="FechaEmision" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="totalSinImpuestos" class="form-label">Total Sin Impuestos:</label>
+                            <input type="number" step="0.01" class="form-control" id="totalSinImpuestos" name="TotalSinImpuestos" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="importeTotal" class="form-label">Importe Total:</label>
+                            <input type="number" step="0.01" class="form-control" id="importeTotal" name="ImporteTotal" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="banco" class="form-label">Banco:</label>
+
+                            <input  type="text" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero-cuenta" class="form-label">Número de Cuenta:</label>
+                            <input type="text" class="form-control" id="numero-cuenta" name="NumeroCuenta" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comprobante" class="form-label">Subir Comprobante:</label>
+                            <input type="file" class="form-control" id="comprobante" name="Comprobante" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="tarjeta" role="tabpanel" aria-labelledby="tarjeta-tab">
+                    <h2>Pago con Tarjeta</h2>
+                    <p>Por favor ingrese los detalles para el pago con tarjeta para completar el pago.</p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="monto-a-pagar" class="form-label">Monto a pagar:</label>
+                            <input type="text" class="form-control" id="monto-a-pagar" name="MontoAPagar" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tipo-tarjeta" class="form-label">Tipo de tarjeta:</label>
+                            <select class="form-control" id="tipo-tarjeta" name="TipoTarjeta" required>
+                                <option value="" disabled selected>Seleccione el tipo de tarjeta</option>
+                                <option value="visa">Visa</option>
+                                <option value="mastercard">Mastercard</option>
+                                <option value="american-express">American Express</option>
+                                <option value="discover">Discover</option>
+                                <option value="diners-club">Diners Club</option>
+                                <option value="jcb">JCB</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero-tarjeta" class="form-label">Número de Tarjeta:</label>
+                            <input type="text" class="form-control" id="numero-tarjeta" name="NumeroTarjeta" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fecha-vencimiento" class="form-label">Fecha de Vencimiento:</label>
+                            <input type="text" class="form-control" id="fecha-vencimiento" name="FechaVencimiento" placeholder="MM/AA" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cvv" class="form-label">CVV:</label>
+                            <input type="text" class="form-control" id="cvv" name="Cvv" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Pagar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        background: linear-gradient(90deg, rgba(25,114,190,1) 0%, rgba(13,138,205,1) 35%, rgba(0,212,255,1) 100%);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-tabs .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px;
+        font-size: 18px;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        color: #fff;
+    }
+
+        .nav-tabs .nav-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #0056b3;
+            color: white;
+        }
+
+    .tab-content {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-pane h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #343a40;
+    }
+
+    .tab-pane p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: #6c757d;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+</style>
+

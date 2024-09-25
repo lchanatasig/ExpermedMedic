@@ -445,7 +445,7 @@
 
                 <!-- Antecedentes Personales -->
                 <div class="col-sm-12 position-relative">
-                    <textarea type="text" maxlength="8000" rows="2" class="form-control" asp-for="AntecedentesPersonales" id="antecedentespersonalesConsulta" placeholder="Coloque una breve descripción, Si desea hablar precione el microfono"></textarea>
+                    <textarea type="text" maxlength="8000" rows="2" class="form-control" asp-for="AntecedentesPersonales" id="antecedentespersonales_consulta" placeholder="Coloque una breve descripción, Si desea hablar precione el microfono"></textarea>
                     <i id="dictationIcon1" class="fa fa-microphone position-absolute" style="top: 35px; right: 15px; cursor: pointer;"></i>
                 </div>
 
@@ -525,7 +525,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <select class="form-select select2" asp-for="AntecedentesFamiliares.Cardiopatia" id="tipoDocumentoSelectCardiopatia">
-                                            <option value="183">Seleccione el familiar</option>
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -557,7 +557,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoDiabetes" id="tipoDocumentoSelectDiabetes">
-                                            <option value="183">Seleccione el familiar</option>
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -588,8 +588,8 @@
                             <div class="col-12 consulta-antecedente-observacion" id="consulta-observacion-enfcardiovascular" style="display: none;">
                                 <div class="row">
                                     <div class="col-6">
-                                        <select class="form-select select2" id="tipoDocumentoSelectEnfCardiovascular" asp-for="AntecedentesFamiliares.ParentescocatalogoEnfcardiovascular">
-                                            <option value="183">Seleccione el familiar</option>
+                                        <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoEnfcardiovascular" id="tipoDocumentoSelectEnfCardiovascular">
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -616,8 +616,8 @@
                             <div class="col-12 consulta-antecedente-observacion" id="consulta-observacion-hipertension" style="display: none;">
                                 <div class="row">
                                     <div class="col-6">
-                                        <select class="form-select select2" id="tipoDocumentoSelectHipertension" asp-for="AntecedentesFamiliares.ParentescocatalogoHipertension">
-                                            <option value="183">Seleccione el familiar</option>
+                                        <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoHipertension" id="tipoDocumentoSelectHipertension">
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -644,8 +644,8 @@
                             <div class="col-12 consulta-antecedente-observacion" id="consulta-observacion-cancer" style="display: none;">
                                 <div class="row">
                                     <div class="col-6">
-                                        <select class="form-select select2" id="tipoDocumentoSelectCancer" asp-for="AntecedentesFamiliares.ParentescocatalogoCancer">
-                                            <option value="183">Seleccione el familiar</option>
+                                        <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoCancer" id="tipoDocumentoSelectCancer">
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -672,8 +672,8 @@
                             <div class="col-12 consulta-antecedente-observacion" id="consulta-observacion-tuberculosis" style="display: none;">
                                 <div class="row">
                                     <div class="col-6">
-                                        <select class="form-select select2" id="tipoDocumentoSelectTuberculosis" asp-for="AntecedentesFamiliares.ParentescocatalogoTuberculosis">
-                                            <option value="183">Seleccione el familiar</option>
+                                        <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoTuberculosis" id="tipoDocumentoSelectTuberculosis">
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -700,8 +700,8 @@
                             <div class="col-12 consulta-antecedente-observacion" id="consulta-observacion-enfmental" style="display: none;">
                                 <div class="row">
                                     <div class="col-6">
-                                        <select class="form-select select2" id="tipoDocumentoSelectEnfMental" asp-for="AntecedentesFamiliares.ParentescocatalogoEnfmental">
-                                            <option value="183">Seleccione el familiar</option>
+                                        <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoEnfmental" id="tipoDocumentoSelectEnfMental">
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -728,8 +728,8 @@
                             <div class="col-12 consulta-antecedente-observacion" id="consulta-observacion-enfinfecciosa" style="display: none;">
                                 <div class="row">
                                     <div class="col-6">
-                                        <select class="form-select select2" id="tipoDocumentoSelectEnfInfecciosa" asp-for="AntecedentesFamiliares.ParentescocatalogoEnfinfecciosa">
-                                            <option value="183">Seleccione el familiar</option>
+                                        <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoEnfinfecciosa" id="tipoDocumentoSelectEnfInfecciosa">
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -756,8 +756,8 @@
                             <div class="col-12 consulta-antecedente-observacion" id="consulta-observacion-malformacion" style="display: none;">
                                 <div class="row">
                                     <div class="col-6">
-                                        <select class="form-select select2" id="tipoDocumentoSelectMalFormacion" asp-for="AntecedentesFamiliares.ParentescocatalogoMalformacion">
-                                            <option value="183">Seleccione el familiar</option>
+                                        <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoMalformacion" id="tipoDocumentoSelectMalFormacion">
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
@@ -784,8 +784,8 @@
                             <div class="col-12 consulta-antecedente-observacion" id="consulta-observacion-otro" style="display: none;">
                                 <div class="row">
                                     <div class="col-6">
-                                        <select class="form-select select2" id="tipoDocumentoSelectOtro" asp-for="AntecedentesFamiliares.ParentescocatalogoOtro">
-                                            <option value="183">Seleccione el familiar</option>
+                                        <select class="form-select select2" asp-for="AntecedentesFamiliares.ParentescocatalogoOtro" id="tipoDocumentoSelectOtro">
+                                            <option value=" ">Seleccione el familiar</option>
                                             @if (ViewBag.TiposParienteAntece != null)
                                             {
                                                 @foreach (var tipoDocumento in ViewBag.TiposParienteAntece)
