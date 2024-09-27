@@ -8,7 +8,6 @@ namespace MedicExpermed.Models
         public AntecedentesFamiliare()
         {
             Consulta = new HashSet<Consultum>();
-            ParentescocatalogoCardiopatiaNavigation = new Catalogo();
         }
 
         public int IdAntecedente { get; set; }

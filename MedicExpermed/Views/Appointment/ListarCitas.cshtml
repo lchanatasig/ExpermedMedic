@@ -41,8 +41,7 @@
                 <th>Nombre Paciente</th>
                 <th>Motivo</th>
                 <th class="d-none d-md-table-cell">Especialidad</th>
-                <th>Estado</th>
-                <th>Pago</th>
+                <th>Estado de la cita</th>
 
             </tr>
         </thead>
@@ -67,19 +66,19 @@
                     <td>
                         @if (cita.EstadoCita == 1)
                         {
-                            @:Activo
+                            <a asp-action="Billing" asp-route-id="@cita.IdCita" asp-controller="Billing" class="btn btn-outline-warning btn-sm">
+                                <i class="fa-solid fa-money-bill"></i> Pendiente Pago
+                            </a>
                         }
                         else
                         {
-                            @:Inactivo
+                            <a  src="#" class="btn btn-outline-success btn-sm">
+                                <i class="fa-solid fa-money-bill"></i> Pagado
+                            </a>
                         }
                     </td>
 
-                    <td class="d-none d-md-table-cell">
-                        <a asp-action="Billing" asp-route-id="@cita.IdCita" asp-controller="Billing" class="btn btn-outline-success btn-sm">
-                            <i class="fa-solid fa-money-bill"></i> Generar pago
-                        </a>
-                    </td>
+                   
                   
                 </tr>
             }
@@ -102,7 +101,26 @@
                 <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmarEliminarCita(@cita.IdCita)">
                     <i class="fa-solid fa-trash"></i> Eliminar
                 </button>
-                <p class="card-text"><strong>Estado:</strong> @(cita.EstadoCita ?? 0)</p>
+                <p class="card-text">
+                    <strong>Estado de la cita:</strong>
+                    @if (cita.EstadoCita == 1)
+                    {
+                        <a asp-action="Billing" asp-route-id="@cita.IdCita" asp-controller="Billing" class="btn btn-outline-warning btn-sm">
+                            <i class="fa-solid fa-money-bill"></i> Pendiente Pago
+                        </a>
+                    }
+                    else if (cita.EstadoCita == 0)
+                    {
+                        <a src="#" class="btn btn-outline-success btn-sm">
+                            <i class="fa-solid fa-money-bill"></i> Pagado
+                        </a>
+                    }
+                    else
+                    {
+                        @: Desconocido
+                    }
+                </p>
+
             </div>
         </div>
     }

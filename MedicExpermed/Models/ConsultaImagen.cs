@@ -8,7 +8,6 @@ namespace MedicExpermed.Models
         public ConsultaImagen()
         {
             Consulta = new HashSet<Consultum>();
-            Imagen = new Imagen();
         }
 
         public int IdConsultaImagen { get; set; }

@@ -9,8 +9,6 @@ namespace MedicExpermed.Models
         {
             Cita = new HashSet<Citum>();
             Consulta = new HashSet<Consultum>();
-
-            SexoPacientesCaNavigation = new Catalogo();
         }
 
         public int IdPacientes { get; set; }

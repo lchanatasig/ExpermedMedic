@@ -11,6 +11,9 @@ namespace MedicExpermed.Models
         public decimal TotalFactura { get; set; }
         public string MetodoPago { get; set; } = null!;
         public string EstadoFactura { get; set; } = null!;
+        public string? Banco { get; set; }
+        public byte[]? ComprobantePago { get; set; }
+        public int? SecuencialFacturacion { get; set; }
 
         public virtual Citum? Cita { get; set; }
     }

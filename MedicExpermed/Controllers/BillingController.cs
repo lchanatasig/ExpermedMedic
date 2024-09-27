@@ -8,5 +8,17 @@ namespace medic_system.Controllers
         {
             return View();
         }
+ 
+        [HttpPost]
+        public IActionResult Billing(int id)
+        {
+
+
+
+            return View();
+        }
+
     }
+
+
 }

@@ -19,7 +19,7 @@ namespace MedicExpermed.Models
         public int? PacienteId { get; set; }
         public int? ConsultaId { get; set; }
         public string? Motivo { get; set; }
-        public int? EstadoCita { get; set; }
+        public int EstadoCita { get; set; }
 
         public virtual Consultum? Consulta { get; set; }
         public virtual Paciente? Paciente { get; set; }

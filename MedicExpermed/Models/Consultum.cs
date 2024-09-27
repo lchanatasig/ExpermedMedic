@@ -8,18 +8,6 @@ namespace MedicExpermed.Models
         public Consultum()
         {
             Cita = new HashSet<Citum>();
-            ConsultaAntecedentesFamiliares = new AntecedentesFamiliare();
-            ConsultaOrganosSistemas = new OrganosSistema();
-            ConsultaExamenFisico = new ExamenFisico();
-            ConsultaDiagnostico = new ConsultaDiagnostico();
-            Especialidad = new Especialidad();
-            PacienteConsultaPNavigation = new Paciente();
-            MedicoConsultaDNavigation = new Usuario();
-            ConsultaAlergiasIntNavigation = new ConsultaAlergia();
-            ConsultaMedicamentos = new ConsultaMedicamento();
-
-
-
         }
 
         public int IdConsulta { get; set; }
