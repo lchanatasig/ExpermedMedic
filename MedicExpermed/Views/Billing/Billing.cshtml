@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Billing";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -32,15 +31,15 @@
                 <div class="tab-pane fade show active" id="efectivo" role="tabpanel" aria-labelledby="efectivo-tab">
                     <h2>Pago en Efectivo</h2>
                     <p>Si su pago fue en efectivo, solo seleccione en guardar</p>
-                    <input type="input" name="name" value="60.00"/>
+                    <input type="input" name="name" value="60.00" />
                     <button type="submit" class="btn btn-primary">Guardar</button>
 
                 </div>
                 <div class="tab-pane fade" id="transferencia" role="tabpanel" aria-labelledby="transferencia-tab">
                     <h2>Pago por Transferencia</h2>
                     <p>Por favor realice la transferencia a la siguiente cuenta bancaria y suba el comprobante de pago.</p>
-                    <form method="post" asp-action="InsertarFactura" asp-controller="" enctype="multipart/form-data">
-                  @*       <input type="hidden" id="consultaId" value="@Model.IdCita" /> *@
+                    <form method="post" asp-action="InsertarFactura" asp-controller="Billing" enctype="multipart/form-data">
+                        <input type="hidden" id="consultaId" value="@Model.IdCita" />
                         <div class="mb-3">
                             <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
                             <input type="datetime-local" class="form-control" id="fechaEmision" name="FechaEmision" required>
@@ -49,11 +48,11 @@
                             <label for="totalSinImpuestos" class="form-label">Valor a pagar:</label>
                             <input type="number" step="0.01" class="form-control" id="total_pagar" name="TotalSinImpuestos" required>
                         </div>
-                    
+
                         <div class="mb-3">
                             <label for="banco" class="form-label">Banco:</label>
 
-                            <input  type="text" id="banco_facturacion" class="form-control"/>
+                            <input type="text" id="banco_facturacion" class="form-control" />
                         </div>
                         <div class="mb-3">
                             <label for="numero-cuenta" class="form-label">Número de váucher:</label>
@@ -61,7 +60,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="comprobante" class="form-label">Subir Comprobante:</label>
-                            <input type="file" class="form-control" id="comprobante" name="Comprobante" required>
+                            <input type="file" class="form-control" id="comprobante" name="Comprobante">
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                     </form>
